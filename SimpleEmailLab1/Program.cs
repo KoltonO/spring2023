@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Configuration;
-using System.Net;
 using System.Net.Mail;
-using System.IO;
 using System.ComponentModel;
 
 namespace SimpleEmailLab1
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
            
             Console.WriteLine("Welcome to the command line email client!");
@@ -38,21 +35,21 @@ namespace SimpleEmailLab1
 
                   
                     MailMessage mail = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                    SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
                     mail.From = new MailAddress("introemailapp1729@gmail.com");
                     mail.To.Add(to);
                     mail.Subject = subject;
                     mail.Body = body;
                   
-                    SmtpServer.Port = 25;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("introemailapp1729", "aeaaavdrqnlncldc");
-                    SmtpServer.EnableSsl = true;
+                    smtpServer.Port = 25;
+                    smtpServer.Credentials = new System.Net.NetworkCredential("introemailapp1729", "aeaaavdrqnlncldc");
+                    smtpServer.EnableSsl = true;
 
-                    SmtpServer.Send(mail);
+                    smtpServer.Send(mail);
                     Console.WriteLine("done!");
                     // Link event handler
-                    SmtpServer.SendCompleted += new SendCompletedEventHandler(SmtpServer_SendCompleted);
+                    smtpServer.SendCompleted += new SendCompletedEventHandler(SmtpServer_SendCompleted);
 
                     Console.Write("\nWould you like to send another email? (Y/N): ");
                     key = Console.ReadKey().Key;
@@ -69,7 +66,7 @@ namespace SimpleEmailLab1
         static void SmtpServer_SendCompleted(object sender, AsyncCompletedEventArgs e)
         {
             // Encourage quick failing
-            if (e.Cancelled == true)
+            if (e.Cancelled)
             {
                 Console.Error.WriteLine("Message was cancelled");
                 return;
