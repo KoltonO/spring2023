@@ -40,13 +40,13 @@ namespace SimpleEmailLab1
                     MailMessage mail = new MailMessage();
                     SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
-                    mail.From = new MailAddress("bhuvanagopal@gmail.com");
+                    mail.From = new MailAddress("introemailapp1729@gmail.com");
                     mail.To.Add(to);
                     mail.Subject = subject;
                     mail.Body = body;
                   
                     SmtpServer.Port = 25;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("bhuvanagopal", "*******");
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("introemailapp1729", "aeaaavdrqnlncldc");
                     SmtpServer.EnableSsl = true;
 
                     SmtpServer.Send(mail);
