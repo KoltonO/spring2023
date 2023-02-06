@@ -37,25 +37,35 @@ namespace SimpleEmailLab1
                     MailMessage mail = new MailMessage();
                     SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
-                    mail.From = new MailAddress("introemailapp1729@gmail.com");
-                    mail.To.Add(to);
+                    mail.From = new MailAddress("introemailapp1729@gmail.com"); // throwaway email
+                    try
+                    {
+                        mail.To.Add(to);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        // if to address is empty or has a problem, it prints then breaks out of the loop
+                        Console.Error.WriteLine(e.Message);
+                        break;
+                    }
                     mail.Subject = subject;
                     mail.Body = body;
                   
                     smtpServer.Port = 25;
+                    // credentials for throwaway email; doesn't matter if they're in plaintext
                     smtpServer.Credentials = new System.Net.NetworkCredential("introemailapp1729", "aeaaavdrqnlncldc");
                     smtpServer.EnableSsl = true;
 
                     smtpServer.Send(mail);
                     Console.WriteLine("done!");
                     // Link event handler
-                    smtpServer.SendCompleted += new SendCompletedEventHandler(SmtpServer_SendCompleted);
+                    smtpServer.SendCompleted += SmtpServer_SendCompleted;
 
                     Console.Write("\nWould you like to send another email? (Y/N): ");
                     key = Console.ReadKey().Key;
                     if (key != ConsoleKey.Y)
                     {
-                        loop = false;
+                        loop = false; // breaks out of loop if user is done
                     }
                 }
 
